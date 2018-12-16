@@ -17,7 +17,6 @@ class SnakePart {
     }
 
     void move(int lastKeyPressed, World world) {
-        printGrid(lastKeyPressed, world);
         if (lastKeyPressed != 0) {
             Integer newxVelocity = Game.keyToXVelocity.get(lastKeyPressed);
             Integer newyVelocity = Game.keyToYVelocity.get(lastKeyPressed);
@@ -56,26 +55,6 @@ class SnakePart {
         setX(afterX);
         setY(afterY);
         world.movePart(beforeX, beforeY, afterX, afterY);
-    }
-
-    private void printGrid(int key, World world) {
-        if (key == 81) {
-            System.out.println("hey");
-            java.util.List<String> strings = new java.util.ArrayList<>();
-            for (int[] arr : world.getWorldGrid()) {
-                StringBuilder sb = new StringBuilder();
-                for (int i : arr) {
-                    sb.append(i).append(" ");
-                }
-                strings.add(sb.toString());
-            }
-            java.nio.file.Path p = java.nio.file.Paths.get("D:/Projects/worldGrid.txt");
-            try {
-                java.nio.file.Files.write(p, strings);
-            } catch (IOException e) {
-                //no action
-            }
-        }
     }
 
     SnakePart getNext() {

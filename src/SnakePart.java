@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.*;
 
 class SnakePart {
 
@@ -10,7 +10,7 @@ class SnakePart {
     private Figure square = new Figure(Color.red);
 
     SnakePart grow() {
-        SnakePart next = new SnakePart(getX(),getY());
+        SnakePart next = new SnakePart(Game.WIDTH_SCALED * 2, Game.HEIGHT_SCALED * 2);
         this.setNext(next);
         return next;
     }
@@ -29,14 +29,12 @@ class SnakePart {
         int beforeX = x;
         int beforeY = y;
         move();
-        int afterX = x;
-        int afterY = y;
-        world.move(beforeX, beforeY, afterX, afterY);
+        world.check();
         SnakePart current = this.getNext();
         while (current != null) {
-            afterX = current.getX();
-            afterY = current.getY();
-            current.move(beforeX, beforeY, world);
+            int afterX = current.getX();
+            int afterY = current.getY();
+            current.move(beforeX, beforeY);
             current = current.getNext();
             beforeX = afterX;
             beforeY = afterY;
@@ -48,12 +46,9 @@ class SnakePart {
         y = (y + yVelocity) >= 0 ? (y + yVelocity) % (Game.HEIGHT_SCALED + 1) : Game.HEIGHT_SCALED - 1 - (y + yVelocity);
     }
 
-    private void move(int afterX, int afterY, World world) {
-        int beforeX = getX();
-        int beforeY = getY();
+    private void move(int afterX, int afterY) {
         setX(afterX);
         setY(afterY);
-        world.movePart(beforeX, beforeY, afterX, afterY);
     }
 
     SnakePart getNext() {
